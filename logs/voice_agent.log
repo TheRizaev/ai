@@ -1,0 +1,95 @@
+2025-08-18 11:20:46,320 - root - INFO - Logging initialized (level: INFO, file: C:\Users\Windows 10\Desktop\test\AI\logs\voice_agent.log)
+2025-08-18 11:20:56,591 - root - INFO - Logging initialized (level: INFO, file: C:\Users\Windows 10\Desktop\test\AI\logs\voice_agent.log)
+2025-08-18 11:21:18,172 - root - INFO - Logging initialized (level: INFO, file: C:\Users\Windows 10\Desktop\test\AI\logs\voice_agent.log)
+2025-08-18 11:21:18,208 - __main__ - INFO - Создан простой голосовой агент 'Марина'
+2025-08-18 11:21:18,209 - __main__ - INFO - Сервисы подключены к агенту
+2025-08-18 11:21:18,209 - services.tts_service - INFO - Synthesizing text: Привет! Меня зовут Марина. Давайте поговорим!
+2025-08-18 11:21:18,761 - utils.audio_utils - INFO - Playing audio, duration: 3.77s
+2025-08-18 11:21:23,162 - services.stt_service - INFO - Listening to microphone... (Press Ctrl+C to stop)
+2025-08-18 11:21:27,303 - services.stt_service - INFO - Recognized text: здравствуйте
+2025-08-18 11:21:27,341 - services.llm_service - INFO - Generating response with gpt-4o
+2025-08-18 11:21:28,018 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2025-08-18 11:21:28,021 - services.llm_service - ERROR - Error generating response: Error code: 401 - {'error': {'message': 'Incorrect API key provided: sk-proj-********************************************************************************************************************************************************nqMA. You can find your API key at https://platform.openai.com/account/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}
+2025-08-18 11:21:28,022 - services.tts_service - INFO - Synthesizing text: Хм, что-то я задумалась... Повторите, пожалуйста?
+2025-08-18 11:21:28,357 - utils.audio_utils - INFO - Playing audio, duration: 3.50s
+2025-08-18 11:21:32,117 - services.stt_service - INFO - Listening to microphone... (Press Ctrl+C to stop)
+2025-08-18 11:21:36,739 - services.stt_service - INFO - Recognized text: здравствуйте
+2025-08-18 11:21:36,745 - services.llm_service - INFO - Generating response with gpt-4o
+2025-08-18 11:21:37,234 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2025-08-18 11:21:37,235 - services.llm_service - ERROR - Error generating response: Error code: 401 - {'error': {'message': 'Incorrect API key provided: sk-proj-********************************************************************************************************************************************************nqMA. You can find your API key at https://platform.openai.com/account/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}
+2025-08-18 11:21:37,235 - services.tts_service - INFO - Synthesizing text: Хм, что-то я задумалась... Повторите, пожалуйста?
+2025-08-18 11:21:37,585 - utils.audio_utils - INFO - Playing audio, duration: 3.50s
+2025-08-18 11:21:41,274 - services.tts_service - INFO - Synthesizing text: Пока! Удачи!
+2025-08-18 11:21:41,536 - utils.audio_utils - INFO - Playing audio, duration: 1.81s
+2025-08-18 11:22:53,898 - root - INFO - Logging initialized (level: INFO, file: C:\Users\Windows 10\Desktop\test\AI\logs\voice_agent.log)
+2025-08-18 11:22:53,919 - __main__ - INFO - Создан простой голосовой агент 'Марина'
+2025-08-18 11:22:53,920 - __main__ - INFO - Сервисы подключены к агенту
+2025-08-18 11:22:53,920 - services.tts_service - INFO - Synthesizing text: Привет! Меня зовут Марина. Давайте поговорим!
+2025-08-18 11:22:54,485 - utils.audio_utils - INFO - Playing audio, duration: 3.77s
+2025-08-18 11:22:58,729 - services.stt_service - INFO - Listening to microphone... (Press Ctrl+C to stop)
+2025-08-18 11:23:03,422 - services.stt_service - INFO - Recognized text: здравствуйте как ваши дела
+2025-08-18 11:23:03,429 - services.llm_service - INFO - Generating response with gpt-4o
+2025-08-18 11:23:05,373 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-18 11:23:05,385 - services.llm_service - INFO - Response generated in 1.96s
+2025-08-18 11:23:05,386 - services.tts_service - INFO - Synthesizing text: Привет! Всё отлично, спасибо! А у тебя как дела?
+2025-08-18 11:23:05,778 - utils.audio_utils - INFO - Playing audio, duration: 4.00s
+2025-08-18 11:23:10,037 - services.stt_service - INFO - Listening to microphone... (Press Ctrl+C to stop)
+2025-08-18 11:23:15,732 - services.stt_service - INFO - Recognized text: все хорошо расскажи о себе
+2025-08-18 11:23:15,738 - services.llm_service - INFO - Generating response with gpt-4o
+2025-08-18 11:23:17,507 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-18 11:23:17,510 - services.llm_service - INFO - Response generated in 1.77s
+2025-08-18 11:23:17,511 - services.tts_service - INFO - Synthesizing text: Я Марина, твой виртуальный собеседник. Люблю интер...
+2025-08-18 11:23:17,967 - utils.audio_utils - INFO - Playing audio, duration: 7.94s
+2025-08-18 11:23:26,165 - services.stt_service - INFO - Listening to microphone... (Press Ctrl+C to stop)
+2025-08-18 11:23:33,376 - services.stt_service - INFO - Recognized text: кто такой тимати
+2025-08-18 11:23:33,384 - services.llm_service - INFO - Generating response with gpt-4o
+2025-08-18 11:23:35,414 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-18 11:23:35,424 - services.llm_service - INFO - Response generated in 2.04s
+2025-08-18 11:23:35,425 - services.tts_service - INFO - Synthesizing text: Тимати - это российский рэпер и продюсер, известны...
+2025-08-18 11:23:35,954 - utils.audio_utils - INFO - Playing audio, duration: 13.04s
+2025-08-18 11:23:49,267 - services.stt_service - INFO - Listening to microphone... (Press Ctrl+C to stop)
+2025-08-18 11:23:55,409 - services.stt_service - INFO - Recognized text: о ком мы до этого говорили
+2025-08-18 11:23:55,416 - services.llm_service - INFO - Generating response with gpt-4o
+2025-08-18 11:23:57,070 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-18 11:23:57,076 - services.llm_service - INFO - Response generated in 1.66s
+2025-08-18 11:23:57,076 - services.tts_service - INFO - Synthesizing text: Мы говорили обо мне и о Тимати. Хочешь продолжить ...
+2025-08-18 11:23:57,532 - utils.audio_utils - INFO - Playing audio, duration: 6.61s
+2025-08-18 11:24:04,414 - services.stt_service - INFO - Listening to microphone... (Press Ctrl+C to stop)
+2025-08-18 11:24:08,096 - services.stt_service - INFO - Recognized text: пока
+2025-08-18 11:24:08,104 - services.tts_service - INFO - Synthesizing text: До свидания! Было приятно поговорить!
+2025-08-18 11:24:08,444 - utils.audio_utils - INFO - Playing audio, duration: 3.32s
+2025-08-18 11:28:52,841 - root - INFO - Logging initialized (level: INFO, file: C:\Users\Windows 10\Desktop\test\AI\logs\voice_agent.log)
+2025-08-18 11:28:52,878 - __main__ - INFO - Создан простой голосовой агент 'Марина' с поддержкой LangChain
+2025-08-18 11:28:52,893 - services.llm_service - INFO - Created custom chain: humor
+2025-08-18 11:28:52,909 - services.llm_service - INFO - Created custom chain: weather_only
+2025-08-18 11:28:52,924 - services.llm_service - INFO - Created custom chain: business
+2025-08-18 11:28:52,924 - __main__ - INFO - Демонстрационные цепочки настроены
+2025-08-18 11:28:52,925 - __main__ - INFO - Сервисы подключены к агенту
+2025-08-18 11:28:52,926 - services.tts_service - INFO - Synthesizing text: Привет! Меня зовут Марина. Теперь у меня есть разн...
+2025-08-18 11:28:53,692 - utils.audio_utils - INFO - Playing audio, duration: 8.91s
+2025-08-18 11:29:03,180 - services.stt_service - INFO - Listening to microphone... (Press Ctrl+C to stop)
+2025-08-18 11:29:17,800 - services.stt_service - INFO - Recognized text: привет
+2025-08-18 11:29:19,137 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-18 11:29:19,155 - services.llm_service - INFO - Response with history generated in 1.35s
+2025-08-18 11:29:19,470 - utils.audio_utils - INFO - Playing audio, duration: 2.14s
+2025-08-18 11:29:21,865 - services.stt_service - INFO - Listening to microphone... (Press Ctrl+C to stop)
+2025-08-18 11:29:29,510 - services.stt_service - INFO - Recognized text: все хорошо
+2025-08-18 11:29:31,617 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-18 11:29:31,621 - services.llm_service - INFO - Response with history generated in 2.10s
+2025-08-18 11:29:31,621 - services.tts_service - INFO - Synthesizing text: Здорово! Чем сегодня занимаешься?
+2025-08-18 11:29:31,956 - utils.audio_utils - INFO - Playing audio, duration: 2.90s
+2025-08-18 11:29:35,105 - services.stt_service - INFO - Listening to microphone... (Press Ctrl+C to stop)
+2025-08-18 11:29:44,246 - services.stt_service - INFO - Recognized text: и в приемной общей части и в нашем отделении
+2025-08-18 11:29:46,434 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-18 11:29:46,436 - services.llm_service - INFO - Response with history generated in 2.18s
+2025-08-18 11:29:46,436 - services.tts_service - INFO - Synthesizing text: Похоже, у тебя сегодня насыщенный день! Как справл...
+2025-08-18 11:29:46,917 - utils.audio_utils - INFO - Playing audio, duration: 5.49s
+2025-08-18 11:29:52,671 - services.stt_service - INFO - Listening to microphone... (Press Ctrl+C to stop)
+2025-08-18 11:30:00,745 - services.stt_service - INFO - Recognized text: она сказала по дворе я же не платить вообще а же ведь нагрев
+2025-08-18 11:30:01,856 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-18 11:30:01,860 - services.llm_service - INFO - Response with history generated in 1.11s
+2025-08-18 11:30:01,861 - services.tts_service - INFO - Synthesizing text: Ого, звучит как непростая ситуация! Ты уже подумал...
+2025-08-18 11:30:02,281 - utils.audio_utils - INFO - Playing audio, duration: 6.17s
+2025-08-18 11:30:08,721 - services.stt_service - INFO - Listening to microphone... (Press Ctrl+C to stop)
+2025-08-18 11:30:09,042 - services.tts_service - INFO - Synthesizing text: Пока! Удачи!
+2025-08-18 11:30:09,312 - utils.audio_utils - INFO - Playing audio, duration: 1.81s
