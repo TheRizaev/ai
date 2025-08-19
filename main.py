@@ -1,14 +1,13 @@
 """
-Новый главный файл для простого голосового агента.
-Заменяет старый сложный main.py
+Обновленный главный файл для медицинского AI агента с RAG.
 """
 import os
 import sys
-import time
 import logging
 import argparse
 from pathlib import Path
 from typing import Optional
+
 # Add project root to path
 sys.path.append(str(Path(__file__).resolve().parent))
 
@@ -17,145 +16,122 @@ from config.settings import (
     VOICE, VOICE_ROLE, VOICE_SPEED,
     LOG_LEVEL, LOG_FILE
 )
-from utils.logging_utils import setup_logging
+from utils.logging_utils import setup_logging, ConversationLogger
 from services.stt_service import STTService
 from services.tts_service import TTSService
 from services.llm_service import LangChainLLMService
+from services.rag_service import RAGService
+from services.medical_db_service import MedicalDBService
+from services.appointment_service import AppointmentService
+from agents.medical_agent import MedicalAgent
 from utils.audio_utils import AudioPlayer
 
 logger = logging.getLogger(__name__)
 
-class SimpleVoiceAgent:
-    """Простой голосовой агент для разговоров с поддержкой LangChain."""
+class MedicalVoiceAssistant:
+    """Медицинский голосовой помощник с поддержкой RAG."""
     
-    def __init__(self, name="Марина"):
-        """Инициализация агента."""
-        self.name = name
-        self.conversation_history = []
-        self.max_history = 6  # Помним только последние 3 пары реплик
-        self.current_chain = None  # Текущая активная цепочка
+    def __init__(self, agent_name: str = "Марина", medical_center: str = "Таблетка"):
+        """
+        Инициализация медицинского ассистента.
         
-        # Сервисы будут подключены отдельно
+        Args:
+            agent_name: Имя агента
+            medical_center: Название медицинского центра
+        """
+        self.agent_name = agent_name
+        self.medical_center = medical_center
+        
+        # Сервисы
         self.stt_service = None
-        self.tts_service = None 
+        self.tts_service = None
         self.llm_service = None
+        self.rag_service = None
+        self.medical_db_service = None
+        self.appointment_service = None
         
-        logger.info(f"Создан простой голосовой агент '{name}' с поддержкой LangChain")
+        # Медицинский агент
+        self.medical_agent = None
+        
+        # Логгер разговоров
+        self.conversation_logger = None
+        
+        logger.info(f"Создан медицинский голосовой ассистент '{agent_name}' для центра '{medical_center}'")
     
-    def connect_services(self, stt_service, tts_service, llm_service):
-        """Подключение сервисов."""
-        self.stt_service = stt_service
-        self.tts_service = tts_service
-        self.llm_service = llm_service
+    def initialize_services(self, yandex_api_key: str, openai_api_key: str):
+        """
+        Инициализация всех сервисов.
         
-        # Создаем несколько готовых цепочек для демонстрации
-        self._setup_demo_chains()
-        
-        logger.info("Сервисы подключены к агенту")
-    
-    def _setup_demo_chains(self):
-        """Настройка демонстрационных цепочек."""
-        if not self.llm_service:
-            return
-            
+        Args:
+            yandex_api_key: API ключ Yandex SpeechKit
+            openai_api_key: API ключ OpenAI
+        """
         try:
-            # 1. Цепочка для анекдотов и юмора
-            humor_prompt = """Ты {agent_name} - веселая собеседница, которая любит анекдоты и юмор.
-            Отвечай с юмором, рассказывай анекдоты, шути.
-            Всегда отвечай кратко - максимум 1-2 предложения.
-            Можешь предлагать новые анекдоты."""
+            print("🔧 Инициализация сервисов...")
             
-            self.llm_service.create_custom_chain(
-                chain_name="humor",
-                system_prompt=humor_prompt,
-                temperature=0.9,
-                max_tokens=120
+            # 1. Базовые сервисы (STT, TTS, LLM)
+            print("  📢 Настройка распознавания речи...")
+            self.stt_service = STTService(api_key=yandex_api_key)
+            
+            print("  🔊 Настройка синтеза речи...")
+            self.tts_service = TTSService(api_key=yandex_api_key)
+            
+            print("  🧠 Настройка языковой модели...")
+            self.llm_service = LangChainLLMService(api_key=openai_api_key)
+            
+            # 2. RAG сервис
+            print("  📚 Настройка базы знаний (RAG)...")
+            self.rag_service = RAGService(openai_api_key=openai_api_key)
+            
+            # 3. Медицинская база данных
+            print("  🏥 Настройка медицинской базы данных...")
+            self.medical_db_service = MedicalDBService()
+            
+            # 4. Сервис записи на прием
+            print("  📅 Настройка сервиса записи...")
+            self.appointment_service = AppointmentService(self.medical_db_service)
+            
+            # 5. Медицинский агент
+            print("  👩‍⚕️ Создание медицинского агента...")
+            self.medical_agent = MedicalAgent(
+                name=self.agent_name,
+                medical_center_name=self.medical_center
             )
             
-            # 2. Ограниченная цепочка только для разговоров о погоде
-            self.llm_service.add_constraint_chain(
-                chain_name="weather_only",
-                allowed_topics=["погода", "температура", "дождь", "снег", "солнце", "облака"],
-                forbidden_topics=["политика", "медицина", "финансы"]
+            # Подключаем сервисы к агенту
+            self.medical_agent.connect_services(
+                stt_service=self.stt_service,
+                tts_service=self.tts_service,
+                llm_service=self.llm_service
             )
             
-            # 3. Серьезная цепочка для деловых разговоров
-            business_prompt = """Ты {agent_name} - профессиональный помощник для деловых вопросов.
-            Говори серьезно, по делу, без шуток.
-            Отвечай конкретно и информативно.
-            Максимум 2 предложения."""
-            
-            self.llm_service.create_custom_chain(
-                chain_name="business",
-                system_prompt=business_prompt,
-                temperature=0.3,
-                max_tokens=100
+            # Регистрируем медицинские сервисы
+            self.medical_agent.register_services(
+                rag_service=self.rag_service,
+                medical_db_service=self.medical_db_service,
+                appointment_service=self.appointment_service
             )
             
-            logger.info("Демонстрационные цепочки настроены")
+            # 6. Логгер разговоров
+            print("  📝 Настройка логирования разговоров...")
+            self.conversation_logger = ConversationLogger()
+            
+            print("✅ Все сервисы успешно инициализированы!")
             
         except Exception as e:
-            logger.error(f"Ошибка настройки цепочек: {e}")
+            logger.error(f"Ошибка инициализации сервисов: {e}")
+            raise
     
-    def switch_chain(self, chain_name: Optional[str] = None):
-        """Переключение между цепочками."""
-        available_chains = ["default", "humor", "weather_only", "business"]
-        
-        if chain_name and chain_name in available_chains:
-            self.current_chain = chain_name if chain_name != "default" else None
-            logger.info(f"Переключено на цепочку: {chain_name}")
-            return f"Переключаюсь в режим '{chain_name}'. Теперь я буду отвечать по-другому!"
-        else:
-            chains_info = ", ".join(available_chains)
-            return f"Доступные режимы: {chains_info}. Скажите 'режим [название]' для переключения."
-    
-    def handle_chain_commands(self, user_message: str) -> Optional[str]:
-        """Обработка команд переключения режимов."""
-        user_lower = user_message.lower()
-        
-        # Команды переключения режимов
-        if "режим" in user_lower or "переключ" in user_lower:
-            if "юмор" in user_lower or "анекдот" in user_lower or "humor" in user_lower:
-                return self.switch_chain("humor")
-            elif "погода" in user_lower or "weather" in user_lower:
-                return self.switch_chain("weather_only")
-            elif "деловой" in user_lower or "бизнес" in user_lower or "business" in user_lower:
-                return self.switch_chain("business")
-            elif "обычный" in user_lower or "default" in user_lower or "стандарт" in user_lower:
-                return self.switch_chain("default")
-            else:
-                return self.switch_chain(None)  # Покажет доступные режимы
-        
-        # Команда для показа текущего режима
-        if "какой режим" in user_lower or "текущий режим" in user_lower:
-            current = self.current_chain or "default"
-            return f"Сейчас активен режим: {current}"
-        
-        return None
-    
-    def add_to_history(self, role, message):
-        """Добавление в историю разговора."""
-        self.conversation_history.append({"role": role, "content": message})
-        
-        # Ограничиваем историю
-        if len(self.conversation_history) > self.max_history:
-            self.conversation_history = self.conversation_history[-self.max_history:]
-    
-    def listen(self):
+    def listen_to_user(self) -> Optional[str]:
         """Слушать пользователя."""
-        if not self.stt_service:
-            logger.error("STT сервис не подключен")
-            return None
-            
-        print("🎤 Слушаю... (начните говорить)")
-        
         try:
-            # Коллбэк для отображения статуса
+            print("\n🎤 Слушаю вас... (начните говорить)")
+            
             def status_callback(event_type, data=None):
                 if event_type == "start_listening":
                     print("🟢 Запись началась...")
                 elif event_type == "partial" and data:
-                    print(f"⚡ {data}")  # Показываем частичные результаты
+                    print(f"⚡ {data}")
                 elif event_type == "recognized" and data:
                     print(f"✅ Распознано: {data}")
                 elif event_type == "stop_listening":
@@ -163,164 +139,279 @@ class SimpleVoiceAgent:
                 elif event_type == "error":
                     print(f"❌ Ошибка: {data}")
             
-            recognized_text = self.stt_service.recognize_stream(callback=status_callback)
+            user_input = self.stt_service.recognize_stream(callback=status_callback)
             
-            if recognized_text and recognized_text.strip():
-                return recognized_text.strip()
+            if user_input and user_input.strip():
+                # Логируем ввод пользователя
+                if self.conversation_logger:
+                    self.conversation_logger.log_user_input(user_input)
+                
+                return user_input.strip()
             else:
                 print("❌ Ничего не распознано")
                 return None
                 
         except Exception as e:
-            logger.error(f"Ошибка распознавания: {e}")
-            print(f"❌ Ошибка при распознавании речи")
+            logger.error(f"Ошибка распознавания речи: {e}")
+            print("❌ Ошибка при распознавании речи")
             return None
     
-    def think(self, user_message):
-        """Обдумать ответ."""
-        if not self.llm_service:
-            logger.error("LLM сервис не подключен")
-            return "Извините, у меня проблемы с мышлением."
-        
-        print("🤔 Думаю...")
-        
-        # Проверяем команды переключения режимов
-        chain_response = self.handle_chain_commands(user_message)
-        if chain_response:
-            return chain_response
-        
-        # Добавляем сообщение пользователя в историю
-        self.add_to_history("user", user_message)
-        
+    def generate_response(self, user_message: str) -> str:
+        """Генерация ответа через медицинского агента."""
         try:
-            # Используем LangChain сервис с текущей цепочкой
-            if self.current_chain:
-                print(f"🔗 Использую режим: {self.current_chain}")
-                response = self.llm_service.generate_response(
-                    user_input=user_message,
-                    agent_name=self.name,
-                    chain_name=self.current_chain
-                )
-            else:
-                # Используем стандартную цепочку с историей
-                response = self.llm_service.generate_with_history(
-                    user_input=user_message,
-                    conversation_history=self.conversation_history[:-1],
-                    agent_name=self.name
-                )
+            print("🤔 Анализирую запрос...")
+            
+            # Логируем системное событие
+            if self.conversation_logger:
+                self.conversation_logger.log_system_event("Обработка запроса", user_message[:50])
+            
+            # Используем медицинского агента для генерации ответа
+            response = self.medical_agent.generate_response(user_message)
             
             if response:
-                # Добавляем ответ в историю
-                self.add_to_history("assistant", response)
+                # Логируем ответ агента
+                if self.conversation_logger:
+                    self.conversation_logger.log_agent_response(response)
+                
                 return response
             else:
-                return "Хм, что-то я задумалась... Повторите, пожалуйста?"
+                return "Извините, что-то пошло не так. Попробуйте еще раз."
                 
         except Exception as e:
             logger.error(f"Ошибка генерации ответа: {e}")
-            return "Извините, что-то с моими мыслями не так."
+            return "Извините, произошла техническая ошибка. Попробуйте переформулировать ваш запрос."
     
-    def speak(self, message):
+    def speak_response(self, message: str):
         """Произнести ответ."""
-        if not self.tts_service:
-            logger.error("TTS сервис не подключен")
-            print(f"💬 {self.name}: {message}")
-            return
-        
-        print(f"💬 {self.name}: {message}")
-        print("🔊 Говорю...")
-        
         try:
+            print(f"\n💬 {self.agent_name}: {message}")
+            print("🔊 Произношу ответ...")
+            
             # Синтезируем речь
             audio = self.tts_service.synthesize(
                 text=message,
                 voice=VOICE,
-                role=VOICE_ROLE, 
+                role=VOICE_ROLE,
                 speed=VOICE_SPEED
             )
             
             if audio:
                 AudioPlayer.play_audio_segment(audio)
-                print("✅ Сказала")
+                print("✅ Ответ произнесен")
             else:
-                print("❌ Не смогла произнести")
+                print("❌ Не удалось произнести ответ")
                 
         except Exception as e:
             logger.error(f"Ошибка синтеза речи: {e}")
-            print("❌ Ошибка при произношении")
+            print("❌ Ошибка при произношении ответа")
     
-    def start_conversation(self):
-        """Начать разговор."""
-        print(f"\n🎉 Привет! Меня зовут {self.name}!")
-        print("🗣️  Давайте просто поговорим. Скажите что-нибудь!")
-        print("🔗 Новинка: Теперь я умею переключать режимы!")
-        print("   • Скажите 'режим юмор' - для анекдотов")
-        print("   • Скажите 'режим погода' - только о погоде")  
-        print("   • Скажите 'режим деловой' - для серьезных тем")
-        print("   • Скажите 'режим обычный' - стандартный режим")
-        print("💡 Для выхода скажите 'пока', 'до свидания' или нажмите Ctrl+C\n")
-        
-        # Приветственное сообщение голосом
-        welcome_message = f"Привет! Меня зовут {self.name}. Теперь у меня есть разные режимы общения! Попробуйте сказать 'режим юмор' или просто поговорим!"
-        self.speak(welcome_message)
-        
-        conversation_count = 0
-        
+    def start_medical_conversation(self):
+        """Начать медицинскую консультацию."""
         try:
+            print("\n" + "="*60)
+            print(f"🏥 МЕДИЦИНСКИЙ ЦЕНТР '{self.medical_center.upper()}'")
+            print(f"👩‍⚕️ Ваш помощник: {self.agent_name}")
+            print("="*60)
+            
+            print("\n🌟 Я помогу вам:")
+            print("   📅 Записаться на прием к врачу")
+            print("   💰 Узнать стоимость услуг")
+            print("   ℹ️  Получить информацию о специалистах")
+            print("   ⏰ Узнать режим работы")
+            print("   🩺 Ответить на общие медицинские вопросы")
+            
+            print("\n⚠️  ВАЖНО: Я НЕ заменяю консультацию врача!")
+            print("💡 Для выхода скажите 'до свидания' или нажмите Ctrl+C")
+            
+            # Приветственное сообщение голосом
+            welcome_message = (f"Добро пожаловать в медицинский центр {self.medical_center}! "
+                             f"Меня зовут {self.agent_name}. Я помогу записаться на прием "
+                             f"и отвечу на ваши вопросы. Чем могу помочь?")
+            
+            self.speak_response(welcome_message)
+            
+            conversation_count = 0
+            
             while True:
-                print(f"\n--- Реплика {conversation_count + 1} ---")
+                print(f"\n" + "-"*40 + f" Диалог {conversation_count + 1} " + "-"*40)
                 
                 # 1. Слушаем пользователя
-                user_message = self.listen()
+                user_message = self.listen_to_user()
                 
                 if not user_message:
                     print("🤷 Попробуйте еще раз...")
                     continue
                 
-                # Проверяем на команды выхода
+                # Проверяем команды выхода
                 if any(word in user_message.lower() for word in 
-                       ['пока', 'до свидания', 'прощай', 'выход', 'хватит', 'стоп']):
-                    farewell = "До свидания! Было приятно поговорить!"
-                    self.speak(farewell)
+                       ['пока', 'до свидания', 'прощай', 'выход', 'хватит', 'стоп', 'спасибо за помощь']):
+                    farewell = f"До свидания! Берегите здоровье и обращайтесь в медицинский центр {self.medical_center}, если понадобится помощь!"
+                    self.speak_response(farewell)
                     break
                 
-                # 2. Думаем над ответом
-                response = self.think(user_message)
+                # 2. Генерируем ответ
+                response = self.generate_response(user_message)
                 
-                # 3. Отвечаем голосом
-                self.speak(response)
+                # 3. Произносим ответ
+                self.speak_response(response)
+                
+                conversation_count += 1
+                
+                # Проверяем, не слишком ли длинный разговор
+                if conversation_count >= 20:
+                    reminder = ("Мы уже долго разговариваем. Если у вас есть еще вопросы, "
+                               "обращайтесь в любое время. Берегите здоровье!")
+                    self.speak_response(reminder)
+                    break
+                
+        except KeyboardInterrupt:
+            print("\n\n👋 Завершение работы...")
+            farewell = "До свидания! Будьте здоровы!"
+            self.speak_response(farewell)
+        except Exception as e:
+            logger.error(f"Ошибка в медицинском разговоре: {e}")
+            print(f"💥 Произошла ошибка: {e}")
+    
+    def run_text_mode(self):
+        """Запуск в текстовом режиме (без голоса)."""
+        try:
+            print("\n" + "="*60)
+            print(f"🏥 МЕДИЦИНСКИЙ ЦЕНТР '{self.medical_center.upper()}' - ТЕКСТОВЫЙ РЕЖИМ")
+            print(f"👩‍⚕️ Ваш помощник: {self.agent_name}")
+            print("="*60)
+            
+            print(f"\n👋 Привет! Я {self.agent_name} из медицинского центра {self.medical_center}.")
+            print("Помогу записаться на прием и отвечу на вопросы. Напишите ваш запрос:")
+            
+            conversation_count = 0
+            
+            while True:
+                print(f"\n[{conversation_count + 1}] Ваш вопрос: ", end="")
+                user_input = input().strip()
+                
+                if not user_input:
+                    continue
+                
+                # Проверяем команды выхода
+                if any(word in user_input.lower() for word in 
+                       ['пока', 'до свидания', 'выход', 'quit', 'стоп']):
+                    print(f"\n👋 До свидания! Берегите здоровье!")
+                    break
+                
+                # Генерируем и выводим ответ
+                response = self.generate_response(user_input)
+                print(f"\n🏥 {self.agent_name}: {response}")
                 
                 conversation_count += 1
                 
         except KeyboardInterrupt:
-            print("\n\n👋 Прощание...")
-            farewell = "Пока! Удачи!"
-            self.speak(farewell)
+            print("\n👋 До свидания!")
         except Exception as e:
-            logger.error(f"Ошибка в разговоре: {e}")
-            print(f"❌ Что-то пошло не так: {e}")
+            logger.error(f"Ошибка в текстовом режиме: {e}")
+            print(f"💥 Ошибка: {e}")
+    
+    def show_statistics(self):
+        """Показать статистику системы."""
+        try:
+            print("\n" + "="*50)
+            print("📊 СТАТИСТИКА МЕДИЦИНСКОГО ЦЕНТРА")
+            print("="*50)
+            
+            # Статистика базы данных
+            if self.medical_db_service:
+                db_stats = self.medical_db_service.get_statistics()
+                print(f"👥 Всего врачей: {db_stats.get('total_doctors', 0)}")
+                print(f"🏥 Всего услуг: {db_stats.get('total_services', 0)}")
+                print(f"📅 Активных записей: {db_stats.get('active_appointments', 0)}")
+                print(f"❌ Отмененных записей: {db_stats.get('cancelled_appointments', 0)}")
+                
+                specialties = db_stats.get('doctors_by_specialty', {})
+                if specialties:
+                    print("\n👨‍⚕️ Врачи по специальностям:")
+                    for specialty, count in specialties.items():
+                        print(f"  • {specialty}: {count} врач(ей)")
+            
+            # Статистика RAG
+            if self.rag_service:
+                rag_stats = self.rag_service.get_knowledge_stats()
+                print(f"\n📚 База знаний: {rag_stats.get('files_in_directory', 0)} файлов")
+                print(f"🔗 Векторное хранилище: {'✅ Активно' if rag_stats.get('vectorstore_initialized') else '❌ Неактивно'}")
+            
+            print("\n" + "="*50)
+            
+        except Exception as e:
+            logger.error(f"Ошибка показа статистики: {e}")
+            print(f"❌ Ошибка получения статистики: {e}")
+    
+    def close(self):
+        """Закрытие всех сервисов."""
+        try:
+            print("\n🔄 Закрытие сервисов...")
+            
+            if self.stt_service:
+                self.stt_service.close()
+            
+            if self.tts_service:
+                self.tts_service.close()
+            
+            if self.rag_service:
+                self.rag_service.close()
+            
+            if self.medical_db_service:
+                self.medical_db_service.close()
+            
+            print("✅ Все сервисы закрыты")
+            
+        except Exception as e:
+            logger.error(f"Ошибка закрытия сервисов: {e}")
 
 
 def setup_parser():
     """Настройка аргументов командной строки."""
-    parser = argparse.ArgumentParser(description='Простой голосовой агент')
+    parser = argparse.ArgumentParser(
+        description='Медицинский AI агент с поддержкой RAG',
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Примеры использования:
+  python main.py                          # Голосовой режим
+  python main.py --text-mode              # Текстовый режим
+  python main.py --stats                  # Показать статистику
+  python main.py --name "Анна"            # Изменить имя агента
+        """
+    )
     
     parser.add_argument(
-        '--yandex-api-key', 
+        '--yandex-api-key',
         help='Yandex SpeechKit API key'
     )
     parser.add_argument(
-        '--openai-api-key', 
+        '--openai-api-key',
         help='OpenAI API key'
     )
     parser.add_argument(
         '--name',
         default='Марина',
-        help='Имя агента (по умолчанию: Марина)'
+        help='Имя медицинского агента (по умолчанию: Марина)'
     )
     parser.add_argument(
-        '--log-level', 
+        '--medical-center',
+        default='Таблетка',
+        help='Название медицинского центра (по умолчанию: Таблетка)'
+    )
+    parser.add_argument(
+        '--text-mode',
+        action='store_true',
+        help='Запуск в текстовом режиме (без голоса)'
+    )
+    parser.add_argument(
+        '--stats',
+        action='store_true',
+        help='Показать статистику и выйти'
+    )
+    parser.add_argument(
+        '--log-level',
         default=LOG_LEVEL,
+        choices=['DEBUG', 'INFO', 'WARNING', 'ERROR'],
         help=f'Уровень логирования (по умолчанию: {LOG_LEVEL})'
     )
     
@@ -335,38 +426,47 @@ def main():
     
     # Настраиваем логирование
     setup_logging(args.log_level, LOG_FILE)
-    logger.info("🚀 Запуск простого голосового агента")
+    logger.info("🚀 Запуск медицинского AI агента с RAG")
     
     # Получаем API ключи
     yandex_api_key = args.yandex_api_key or YANDEX_API_KEY or os.getenv('YANDEX_API_KEY')
     openai_api_key = args.openai_api_key or OPENAI_API_KEY or os.getenv('OPENAI_API_KEY')
     
-    if not yandex_api_key:
-        print("❌ Ошибка: Не указан Yandex API ключ")
+    if not yandex_api_key and not args.text_mode:
+        print("❌ Ошибка: Не указан Yandex API ключ (нужен для голосового режима)")
+        print("💡 Используйте --text-mode для работы без голоса")
         return 1
         
     if not openai_api_key:
         print("❌ Ошибка: Не указан OpenAI API ключ")
+        print("💡 Установите переменную окружения OPENAI_API_KEY")
         return 1
     
     try:
-        print("🔧 Инициализация сервисов...")
+        # Создаем ассистента
+        assistant = MedicalVoiceAssistant(
+            agent_name=args.name,
+            medical_center=args.medical_center
+        )
         
-        # Создаем сервисы
-        stt_service = STTService(api_key=yandex_api_key)
-        tts_service = TTSService(api_key=yandex_api_key)
-        llm_service = LangChainLLMService(api_key=openai_api_key)
+        # Инициализируем сервисы
+        assistant.initialize_services(
+            yandex_api_key=yandex_api_key or "",
+            openai_api_key=openai_api_key
+        )
         
-        print("✅ Сервисы созданы")
+        # Обрабатываем специальные режимы
+        if args.stats:
+            assistant.show_statistics()
+            return 0
         
-        # Создаем и настраиваем агента
-        agent = SimpleVoiceAgent(name=args.name)
-        agent.connect_services(stt_service, tts_service, llm_service)
-        
-        print("✅ Агент готов к работе")
-        
-        # Начинаем разговор
-        agent.start_conversation()
+        # Запускаем нужный режим
+        if args.text_mode:
+            print("📝 Запуск в ТЕКСТОВОМ режиме")
+            assistant.run_text_mode()
+        else:
+            print("🎤 Запуск в ГОЛОСОВОМ режиме")
+            assistant.start_medical_conversation()
         
     except KeyboardInterrupt:
         print("\n👋 Программа завершена пользователем")
@@ -377,14 +477,12 @@ def main():
     finally:
         # Закрываем сервисы
         try:
-            if 'stt_service' in locals():
-                stt_service.close()
-            if 'tts_service' in locals():
-                tts_service.close()
+            if 'assistant' in locals():
+                assistant.close()
         except:
             pass
             
-    logger.info("👋 Работа агента завершена")
+    logger.info("👋 Работа медицинского агента завершена")
     return 0
 
 

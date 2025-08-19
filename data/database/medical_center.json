@@ -1,0 +1,286 @@
+{
+  "services": [
+    {
+      "id": "therapy_consult",
+      "name": "Консультация терапевта",
+      "category": "therapy",
+      "price": 2500,
+      "duration": 30,
+      "description": "Первичная консультация врача-терапевта",
+      "preparation": "Особой подготовки не требуется"
+    },
+    {
+      "id": "therapy_repeat",
+      "name": "Повторная консультация терапевта",
+      "category": "therapy",
+      "price": 2000,
+      "duration": 20,
+      "description": "Повторный прием врача-терапевта"
+    },
+    {
+      "id": "cardio_consult",
+      "name": "Консультация кардиолога",
+      "category": "cardiology",
+      "price": 3000,
+      "duration": 40,
+      "description": "Консультация врача-кардиолога"
+    },
+    {
+      "id": "neuro_consult",
+      "name": "Консультация невролога",
+      "category": "neurology",
+      "price": 2800,
+      "duration": 35,
+      "description": "Консультация врача-невролога"
+    },
+    {
+      "id": "gyneco_consult",
+      "name": "Консультация гинеколога",
+      "category": "gynecology",
+      "price": 2500,
+      "duration": 30,
+      "description": "Консультация врача-гинеколога"
+    },
+    {
+      "id": "urology_consult",
+      "name": "Консультация уролога",
+      "category": "urology",
+      "price": 2700,
+      "duration": 30,
+      "description": "Консультация врача-уролога"
+    },
+    {
+      "id": "pediatric_consult",
+      "name": "Консультация педиатра",
+      "category": "pediatrics",
+      "price": 2200,
+      "duration": 30,
+      "description": "Консультация врача-педиатра"
+    },
+    {
+      "id": "ecg",
+      "name": "ЭКГ с расшифровкой",
+      "category": "diagnostics",
+      "price": 800,
+      "duration": 15,
+      "description": "Электрокардиография с расшифровкой"
+    },
+    {
+      "id": "echo_heart",
+      "name": "УЗИ сердца (ЭхоКГ)",
+      "category": "diagnostics",
+      "price": 2800,
+      "duration": 30,
+      "description": "Ультразвуковое исследование сердца"
+    },
+    {
+      "id": "blood_general",
+      "name": "Общий анализ крови",
+      "category": "laboratory",
+      "price": 500,
+      "duration": 10,
+      "description": "Общий клинический анализ крови",
+      "preparation": "Сдается натощак утром"
+    },
+    {
+      "id": "blood_biochem",
+      "name": "Биохимический анализ крови",
+      "category": "laboratory",
+      "price": 1200,
+      "duration": 10,
+      "description": "Биохимическое исследование крови",
+      "preparation": "12-часовое голодание перед сдачей"
+    },
+    {
+      "id": "urine_general",
+      "name": "Общий анализ мочи",
+      "category": "laboratory",
+      "price": 400,
+      "duration": 5,
+      "description": "Общий клинический анализ мочи",
+      "preparation": "Утренняя порция мочи, средний поток"
+    }
+  ],
+  "doctors": [
+    {
+      "id": "ivanova_ap",
+      "name": "Иванова Анна Петровна",
+      "specialty": "therapy",
+      "position": "Врач-терапевт",
+      "experience": 15,
+      "education": "ТГМИ, 2009",
+      "room": "101"
+    },
+    {
+      "id": "petrov_sm",
+      "name": "Петров Сергей Михайлович",
+      "specialty": "therapy",
+      "position": "Врач-терапевт высшей категории",
+      "experience": 20,
+      "education": "ТГМИ, 2004",
+      "room": "102"
+    },
+    {
+      "id": "sidorova_ev",
+      "name": "Сидорова Елена Владимировна",
+      "specialty": "cardiology",
+      "position": "Врач-кардиолог",
+      "experience": 12,
+      "education": "ТГМИ, 2012",
+      "room": "201"
+    },
+    {
+      "id": "mikhailov_ik",
+      "name": "Михайлов Игорь Константинович",
+      "specialty": "cardiology",
+      "position": "Врач-кардиолог высшей категории",
+      "experience": 25,
+      "education": "ТГМИ, 1999",
+      "room": "202"
+    },
+    {
+      "id": "kozlova_ma",
+      "name": "Козлова Мария Александровна",
+      "specialty": "neurology",
+      "position": "Врач-невролог",
+      "experience": 10,
+      "education": "ТГМИ, 2014",
+      "room": "301"
+    },
+    {
+      "id": "fedorov_ds",
+      "name": "Федоров Дмитрий Сергеевич",
+      "specialty": "neurology",
+      "position": "Врач-невролог",
+      "experience": 8,
+      "education": "ТГМИ, 2016",
+      "room": "302"
+    },
+    {
+      "id": "romanova_li",
+      "name": "Романова Людмила Ивановна",
+      "specialty": "gynecology",
+      "position": "Врач-гинеколог",
+      "experience": 18,
+      "education": "ТГМИ, 2006",
+      "room": "401"
+    },
+    {
+      "id": "nikolaeva_op",
+      "name": "Николаева Ольга Павловна",
+      "specialty": "gynecology",
+      "position": "Врач-гинеколог высшей категории",
+      "experience": 22,
+      "education": "ТГМИ, 2002",
+      "room": "402"
+    }
+  ],
+  "schedule": {
+    "ivanova_ap": {
+      "monday": {
+        "start": "09:00",
+        "end": "15:00"
+      },
+      "wednesday": {
+        "start": "09:00",
+        "end": "15:00"
+      },
+      "friday": {
+        "start": "09:00",
+        "end": "15:00"
+      }
+    },
+    "petrov_sm": {
+      "tuesday": {
+        "start": "10:00",
+        "end": "16:00"
+      },
+      "thursday": {
+        "start": "10:00",
+        "end": "16:00"
+      },
+      "saturday": {
+        "start": "09:00",
+        "end": "13:00"
+      }
+    },
+    "sidorova_ev": {
+      "monday": {
+        "start": "14:00",
+        "end": "19:00"
+      },
+      "wednesday": {
+        "start": "14:00",
+        "end": "19:00"
+      }
+    },
+    "mikhailov_ik": {
+      "tuesday": {
+        "start": "09:00",
+        "end": "14:00"
+      },
+      "thursday": {
+        "start": "09:00",
+        "end": "14:00"
+      },
+      "friday": {
+        "start": "09:00",
+        "end": "14:00"
+      }
+    },
+    "kozlova_ma": {
+      "monday": {
+        "start": "10:00",
+        "end": "16:00"
+      },
+      "tuesday": {
+        "start": "10:00",
+        "end": "16:00"
+      },
+      "thursday": {
+        "start": "10:00",
+        "end": "16:00"
+      }
+    },
+    "fedorov_ds": {
+      "wednesday": {
+        "start": "14:00",
+        "end": "20:00"
+      },
+      "friday": {
+        "start": "14:00",
+        "end": "20:00"
+      }
+    },
+    "romanova_li": {
+      "tuesday": {
+        "start": "09:00",
+        "end": "15:00"
+      },
+      "thursday": {
+        "start": "09:00",
+        "end": "15:00"
+      },
+      "saturday": {
+        "start": "09:00",
+        "end": "15:00"
+      }
+    },
+    "nikolaeva_op": {
+      "monday": {
+        "start": "13:00",
+        "end": "19:00"
+      },
+      "wednesday": {
+        "start": "13:00",
+        "end": "19:00"
+      },
+      "friday": {
+        "start": "13:00",
+        "end": "19:00"
+      }
+    }
+  },
+  "appointments": [],
+  "patients": []
+}

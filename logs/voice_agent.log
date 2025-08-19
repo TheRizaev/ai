@@ -93,3 +93,124 @@
 2025-08-18 11:30:08,721 - services.stt_service - INFO - Listening to microphone... (Press Ctrl+C to stop)
 2025-08-18 11:30:09,042 - services.tts_service - INFO - Synthesizing text: Пока! Удачи!
 2025-08-18 11:30:09,312 - utils.audio_utils - INFO - Playing audio, duration: 1.81s
+2025-08-18 11:37:13,399 - root - INFO - Logging initialized (level: INFO, file: C:\Users\Windows 10\Desktop\test\AI\logs\voice_agent.log)
+2025-08-18 11:37:13,430 - __main__ - INFO - Создан простой голосовой агент 'Марина' с поддержкой LangChain
+2025-08-18 11:37:13,445 - services.llm_service - INFO - Created custom chain: humor
+2025-08-18 11:37:13,460 - services.llm_service - INFO - Created custom chain: weather_only
+2025-08-18 11:37:13,475 - services.llm_service - INFO - Created custom chain: business
+2025-08-18 11:37:13,476 - __main__ - INFO - Демонстрационные цепочки настроены
+2025-08-18 11:37:13,476 - __main__ - INFO - Сервисы подключены к агенту
+2025-08-18 11:37:13,477 - services.tts_service - INFO - Synthesizing text: Привет! Меня зовут Марина. Теперь у меня есть разн...
+2025-08-18 11:37:14,136 - utils.audio_utils - INFO - Playing audio, duration: 8.91s
+2025-08-18 12:11:30,657 - root - INFO - Logging initialized (level: INFO, file: C:\Users\Windows 10\Desktop\test\AI\logs\voice_agent.log)
+2025-08-18 12:11:30,662 - __main__ - INFO - Создан медицинский голосовой ассистент 'Марина' для центра 'Таблетка'
+2025-08-18 12:11:33,232 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-08-18 12:11:33,738 - services.rag_service - INFO - Создана новая база знаний в C:\Users\Windows 10\Desktop\test\AI\data\medical_knowledge\chroma_db
+2025-08-18 12:11:33,743 - services.rag_service - INFO - Добавлено 7 частей документов в базу знаний
+2025-08-18 12:11:33,743 - services.rag_service - INFO - Созданы и загружены примеры медицинских документов
+2025-08-18 12:11:33,743 - services.rag_service - INFO - RAG компоненты успешно настроены
+2025-08-18 12:11:33,744 - services.medical_db_service - INFO - Файл базы данных не найден, создается новый
+2025-08-18 12:11:33,745 - services.medical_db_service - INFO - Созданы примеры услуг
+2025-08-18 12:11:33,745 - services.medical_db_service - INFO - Созданы примеры врачей
+2025-08-18 12:11:33,746 - services.medical_db_service - INFO - Создано примерное расписание
+2025-08-18 12:11:33,747 - services.appointment_service - INFO - Сервис записи на прием инициализирован
+2025-08-18 12:11:33,748 - agents.base_agent - INFO - Создан базовый агент: Марина
+2025-08-18 12:11:33,783 - agents.medical_agent - INFO - Создан медицинский агент 'Марина' для центра 'Таблетка'
+2025-08-18 12:11:33,784 - agents.base_agent - INFO - Сервисы подключены к агенту Марина
+2025-08-18 12:11:33,784 - agents.medical_agent - INFO - Медицинские сервисы зарегистрированы
+2025-08-18 12:11:33,786 - services.tts_service - INFO - Synthesizing text: Добро пожаловать в медицинский центр Таблетка! Мен...
+2025-08-18 12:11:34,600 - utils.audio_utils - INFO - Playing audio, duration: 10.09s
+2025-08-18 12:11:45,316 - services.stt_service - INFO - Listening to microphone... (Press Ctrl+C to stop)
+2025-08-18 12:11:49,951 - services.stt_service - INFO - Recognized text: здравствуйте
+2025-08-18 12:11:50,914 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2025-08-18 12:11:50,916 - agents.medical_agent - ERROR - Ошибка проверки экстренной ситуации: Error code: 401 - {'error': {'message': 'Incorrect API key provided: sk-proj-********************************************************************************************************************************************************nqMA. You can find your API key at https://platform.openai.com/account/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}
+2025-08-18 12:11:51,160 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2025-08-18 12:11:51,161 - agents.medical_agent - ERROR - Ошибка определения намерения: Error code: 401 - {'error': {'message': 'Incorrect API key provided: sk-proj-********************************************************************************************************************************************************nqMA. You can find your API key at https://platform.openai.com/account/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}
+2025-08-18 12:11:51,428 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2025-08-18 12:11:51,429 - agents.medical_agent - ERROR - Ошибка обработки общего запроса: Error code: 401 - {'error': {'message': 'Incorrect API key provided: sk-proj-********************************************************************************************************************************************************nqMA. You can find your API key at https://platform.openai.com/account/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}
+2025-08-18 12:11:51,430 - services.tts_service - INFO - Synthesizing text: Извините, не совсем поняла ваш вопрос. Могли бы вы...
+2025-08-18 12:11:51,800 - utils.audio_utils - INFO - Playing audio, duration: 4.87s
+2025-08-18 12:11:56,940 - services.stt_service - INFO - Listening to microphone... (Press Ctrl+C to stop)
+2025-08-18 12:12:03,009 - services.stt_service - INFO - Recognized text: а ты там
+2025-08-18 12:12:03,435 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2025-08-18 12:12:03,436 - agents.medical_agent - ERROR - Ошибка проверки экстренной ситуации: Error code: 401 - {'error': {'message': 'Incorrect API key provided: sk-proj-********************************************************************************************************************************************************nqMA. You can find your API key at https://platform.openai.com/account/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}
+2025-08-18 12:12:03,740 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2025-08-18 12:12:03,741 - agents.medical_agent - ERROR - Ошибка определения намерения: Error code: 401 - {'error': {'message': 'Incorrect API key provided: sk-proj-********************************************************************************************************************************************************nqMA. You can find your API key at https://platform.openai.com/account/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}
+2025-08-18 12:12:04,001 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+2025-08-18 12:12:04,001 - agents.medical_agent - ERROR - Ошибка обработки общего запроса: Error code: 401 - {'error': {'message': 'Incorrect API key provided: sk-proj-********************************************************************************************************************************************************nqMA. You can find your API key at https://platform.openai.com/account/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}
+2025-08-18 12:12:04,002 - services.tts_service - INFO - Synthesizing text: Извините, не совсем поняла ваш вопрос. Могли бы вы...
+2025-08-18 12:12:04,375 - utils.audio_utils - INFO - Playing audio, duration: 4.87s
+2025-08-18 12:12:08,067 - services.tts_service - INFO - Synthesizing text: До свидания! Будьте здоровы!
+2025-08-18 12:12:08,421 - utils.audio_utils - INFO - Playing audio, duration: 2.72s
+2025-08-18 12:12:11,350 - services.rag_service - INFO - RAG сервис закрыт
+2025-08-18 12:12:11,352 - services.medical_db_service - INFO - Медицинская база данных закрыта
+2025-08-18 12:13:35,381 - root - INFO - Logging initialized (level: INFO, file: C:\Users\Windows 10\Desktop\test\AI\logs\voice_agent.log)
+2025-08-18 12:13:35,384 - __main__ - INFO - Создан медицинский голосовой ассистент 'Марина' для центра 'Таблетка'
+2025-08-18 12:13:35,845 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-08-18 12:13:35,978 - services.rag_service - INFO - Загружена существующая база знаний из C:\Users\Windows 10\Desktop\test\AI\data\medical_knowledge\chroma_db
+2025-08-18 12:13:35,979 - services.rag_service - INFO - RAG компоненты успешно настроены
+2025-08-18 12:13:35,986 - services.medical_db_service - INFO - Данные загружены из C:\Users\Windows 10\Desktop\test\AI\data\database\medical_center.json
+2025-08-18 12:13:35,988 - services.appointment_service - INFO - Сервис записи на прием инициализирован
+2025-08-18 12:13:35,988 - agents.base_agent - INFO - Создан базовый агент: Марина
+2025-08-18 12:13:36,022 - agents.medical_agent - INFO - Создан медицинский агент 'Марина' для центра 'Таблетка'
+2025-08-18 12:13:36,023 - agents.base_agent - INFO - Сервисы подключены к агенту Марина
+2025-08-18 12:13:36,023 - agents.medical_agent - INFO - Медицинские сервисы зарегистрированы
+2025-08-18 12:13:36,025 - services.tts_service - INFO - Synthesizing text: Добро пожаловать в медицинский центр Таблетка! Мен...
+2025-08-18 12:13:36,646 - utils.audio_utils - INFO - Playing audio, duration: 10.09s
+2025-08-18 12:13:47,241 - services.stt_service - INFO - Listening to microphone... (Press Ctrl+C to stop)
+2025-08-18 12:13:51,390 - services.stt_service - INFO - Recognized text: здравствуйте
+2025-08-18 12:13:52,237 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-18 12:13:52,250 - agents.medical_agent - WARNING - LLM обнаружил экстренную ситуацию
+2025-08-18 12:13:52,801 - utils.audio_utils - INFO - Playing audio, duration: 10.20s
+2025-08-18 12:14:03,277 - services.stt_service - INFO - Listening to microphone... (Press Ctrl+C to stop)
+2025-08-18 12:14:11,991 - services.stt_service - INFO - Recognized text: расскажите что у вас есть
+2025-08-18 12:14:12,661 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-18 12:14:12,667 - agents.medical_agent - WARNING - LLM обнаружил экстренную ситуацию
+2025-08-18 12:14:13,163 - utils.audio_utils - INFO - Playing audio, duration: 10.20s
+2025-08-18 12:14:23,633 - services.stt_service - INFO - Listening to microphone... (Press Ctrl+C to stop)
+2025-08-18 12:14:29,030 - services.tts_service - INFO - Synthesizing text: До свидания! Будьте здоровы!
+2025-08-18 12:14:29,370 - utils.audio_utils - INFO - Playing audio, duration: 2.72s
+2025-08-18 12:14:32,256 - services.rag_service - INFO - RAG сервис закрыт
+2025-08-18 12:14:32,257 - services.medical_db_service - INFO - Медицинская база данных закрыта
+2025-08-18 12:14:35,183 - root - INFO - Logging initialized (level: INFO, file: C:\Users\Windows 10\Desktop\test\AI\logs\voice_agent.log)
+2025-08-18 12:14:35,186 - __main__ - INFO - Создан медицинский голосовой ассистент 'Марина' для центра 'Таблетка'
+2025-08-18 12:14:35,529 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-08-18 12:14:35,635 - services.rag_service - INFO - Загружена существующая база знаний из C:\Users\Windows 10\Desktop\test\AI\data\medical_knowledge\chroma_db
+2025-08-18 12:14:35,635 - services.rag_service - INFO - RAG компоненты успешно настроены
+2025-08-18 12:14:35,636 - services.medical_db_service - INFO - Данные загружены из C:\Users\Windows 10\Desktop\test\AI\data\database\medical_center.json
+2025-08-18 12:14:35,637 - services.appointment_service - INFO - Сервис записи на прием инициализирован
+2025-08-18 12:14:35,638 - agents.base_agent - INFO - Создан базовый агент: Марина
+2025-08-18 12:14:35,665 - agents.medical_agent - INFO - Создан медицинский агент 'Марина' для центра 'Таблетка'
+2025-08-18 12:14:35,666 - agents.base_agent - INFO - Сервисы подключены к агенту Марина
+2025-08-18 12:14:35,666 - agents.medical_agent - INFO - Медицинские сервисы зарегистрированы
+2025-08-18 12:14:35,670 - services.tts_service - INFO - Synthesizing text: Добро пожаловать в медицинский центр Таблетка! Мен...
+2025-08-18 12:14:36,322 - utils.audio_utils - INFO - Playing audio, duration: 10.09s
+2025-08-18 12:14:46,890 - services.stt_service - INFO - Listening to microphone... (Press Ctrl+C to stop)
+2025-08-18 12:14:50,584 - services.stt_service - INFO - Recognized text: здравствуйте
+2025-08-18 12:14:51,318 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-18 12:14:51,332 - agents.medical_agent - WARNING - LLM обнаружил экстренную ситуацию
+2025-08-18 12:14:51,898 - utils.audio_utils - INFO - Playing audio, duration: 10.20s
+2025-08-18 12:15:02,373 - services.stt_service - INFO - Listening to microphone... (Press Ctrl+C to stop)
+2025-08-18 12:15:06,765 - services.tts_service - INFO - Synthesizing text: До свидания! Будьте здоровы!
+2025-08-18 12:15:07,098 - utils.audio_utils - INFO - Playing audio, duration: 2.72s
+2025-08-18 12:15:09,984 - services.rag_service - INFO - RAG сервис закрыт
+2025-08-18 12:15:09,985 - services.medical_db_service - INFO - Медицинская база данных закрыта
+2025-08-19 22:17:01,668 - root - INFO - Logging initialized (level: INFO, file: C:\Users\Windows 10\Desktop\test\AI\logs\voice_agent.log)
+2025-08-19 22:17:01,694 - __main__ - INFO - Создан медицинский голосовой ассистент 'Марина' для центра 'Таблетка'
+2025-08-19 22:17:05,060 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-08-19 22:17:05,322 - services.rag_service - INFO - Загружена существующая база знаний из C:\Users\Windows 10\Desktop\test\AI\data\medical_knowledge\chroma_db
+2025-08-19 22:17:05,322 - services.rag_service - INFO - RAG компоненты успешно настроены
+2025-08-19 22:17:05,332 - services.medical_db_service - INFO - Данные загружены из C:\Users\Windows 10\Desktop\test\AI\data\database\medical_center.json
+2025-08-19 22:17:05,333 - services.appointment_service - INFO - Сервис записи на прием инициализирован
+2025-08-19 22:17:05,334 - agents.base_agent - INFO - Создан базовый агент: Марина
+2025-08-19 22:17:05,373 - agents.medical_agent - INFO - Создан медицинский агент 'Марина' для центра 'Таблетка'
+2025-08-19 22:17:05,373 - agents.base_agent - INFO - Сервисы подключены к агенту Марина
+2025-08-19 22:17:05,373 - agents.medical_agent - INFO - Медицинские сервисы зарегистрированы
+2025-08-19 22:17:05,375 - services.tts_service - INFO - Synthesizing text: Добро пожаловать в медицинский центр Таблетка! Мен...
+2025-08-19 22:17:06,278 - utils.audio_utils - INFO - Playing audio, duration: 10.09s
+2025-08-19 22:17:16,994 - services.stt_service - INFO - Listening to microphone... (Press Ctrl+C to stop)
+2025-08-19 22:17:31,136 - services.stt_service - INFO - Recognized text: привет
+2025-08-19 22:17:32,180 - httpx - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-08-19 22:17:32,192 - agents.medical_agent - WARNING - LLM обнаружил экстренную ситуацию
+2025-08-19 22:17:32,685 - utils.audio_utils - INFO - Playing audio, duration: 10.20s
+2025-08-19 22:17:43,168 - services.stt_service - INFO - Listening to microphone... (Press Ctrl+C to stop)
